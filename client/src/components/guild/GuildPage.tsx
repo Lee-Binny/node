@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { InputGroup, FormControl, Button } from 'react-bootstrap';
 import GuildResult from './GuildResult';
 import './Guild.css';
