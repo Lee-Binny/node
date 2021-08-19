@@ -1,10 +1,13 @@
-const mysql = require('mysql');
+const {createPool} = require('mysql2/promise');
 const dbConfig = require('./dbConfig');
 
-const connection = mysql.createConnection(dbConfig);
-connection.connect(error => {
-    if (error) throw error;
-    console.log("datebase connected successfully!");
-})
+const pool = createPool(dbConfig);
+export default pool
 
-module.exports = connection;
+// const connection = mysql.createConnection(dbConfig);
+// connection.connect(error => {
+//     if (error) throw error;
+//     console.log("datebase connected successfully!");
+// })
+
+// module.exports = connection;
