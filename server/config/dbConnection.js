@@ -2,7 +2,7 @@ const {createPool} = require('mysql2/promise');
 const dbConfig = require('./dbConfig');
 
 const pool = createPool(dbConfig);
-export default pool
+module.exports = pool;
 
 // const connection = mysql.createConnection(dbConfig);
 // connection.connect(error => {

@@ -3,7 +3,8 @@ const guildService = require('../services/guild.services');
 exports.getGuild = async (req, res) => {
     let guildName = req.query.guildName;
     try {
-        guildService.getGuild(guildName)
+        const result = await guildService.getGuild(guildName);
+        res.send(result);
     } catch (e) {
         
     }
