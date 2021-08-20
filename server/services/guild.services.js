@@ -1,9 +1,15 @@
 const GuildModel = require('../models/guild.models');
+const UserModel = require('../models/user.models');
+const GuildMemberModel = require('../models/guildMember.models');
+
 exports.getGuild = async (guildName) => {
     try {
-        const result  = await GuildModel.getGuilds(guildName);
-        return result;
+        const guild = await GuildModel.getGuilds(guildName);
+        const master = await UserModel.getUser(guild.master_id);
+        const guildMembers = await GuildMemberModel.getGuildMembers(guild.id);
+        return { guild, master, guildMembers};
     } catch (e) {
-        throw Error('Error Get Guild');
+        console.error("get guild service error: " + error);
+        throw error;
     }
 }

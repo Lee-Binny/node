@@ -3,7 +3,7 @@ import { Navbar, Container, Nav } from 'react-bootstrap';
 import GuildPage from '../components/guild/GuildPage';
 import RaidPage from '../components/raid/RaidPage';
 
-const GuildContainer = () => {
+const GuildContainer: React.FC = () => {
     const [active, setActive] = useState<string>('home');
     const onSelect = (eventKey: string | null) => {
         if (eventKey) {

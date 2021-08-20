@@ -5,12 +5,16 @@ const GuildModels = {
         try {
             const conn = await pool.getConnection();
             const query = GuildQuery.getGuild(guildName);
-            const [[result]] = await conn.query(query);
-            // TODO result.length === 0 예외 처리
+            const [result] = await conn.query(query);
+            if (result.length === 0) {
+                throw 'Not Found Guild';
+            }
+
             conn.release();
-            return result;
+            return result[0];
         } catch (error) {
-            console.log("model error: " + error);
+            console.error("get guild model error: " + error);
+            throw error;
         }
     }
 }

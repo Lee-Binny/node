@@ -17,5 +17,9 @@ code {
 }
 
 .contents {
-  margin: 20px 0;
+  margin-top: 20px;
+}
+
+p {
+  margin: 0;
 }
