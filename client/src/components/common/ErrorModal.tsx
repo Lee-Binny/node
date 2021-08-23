@@ -19,7 +19,7 @@ const ErrorModal: React.FC<IErrorModalProps> = ({ show, message, setShow }) => {
                 </p>
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={() => setShow(false)}>Close</Button>
+                <Button variant="secondary" onClick={() => setShow(false)}>Close</Button>
             </Modal.Footer>
         </Modal>
     )

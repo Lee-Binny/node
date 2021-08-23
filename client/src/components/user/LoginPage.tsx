@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card, Button, Form } from 'react-bootstrap';
 import ErrorModal from '../common/ErrorModal';
 import axios from 'axios';
-import './Login.css';
+import './User.css';
 
 interface ILoginPageProps {
     setLogin: Function
@@ -28,16 +28,16 @@ const LoginPage: React.FC<ILoginPageProps> = ({setLogin}) => {
         })
         .then(res => {
             if (res.data.ok) {
-                console.log(res.data);
                 setLogin({
                     login: true,
                     id: res.data.result.id,
                     userId: res.data.result.user_id,
                     password: res.data.result.password,
-                    name: res.data.result.name
+                    name: res.data.result.name,
+                    level: res.data.result.level
                 })
             } else {
-                setMessage(res.data.error);
+                setMessage('not found user');
                 setShow(true);
             }
         })
@@ -61,7 +61,7 @@ const LoginPage: React.FC<ILoginPageProps> = ({setLogin}) => {
                                 value={id} 
                                 onChange={onChange}
                                 placeholder="Enter Your ID" />
-                            <Form.Text className="text-muted">
+                            <Form.Text className="text-muted password-message">
                                 We'll never share your email with anyone else.
                             </Form.Text>
                         </Form.Group>

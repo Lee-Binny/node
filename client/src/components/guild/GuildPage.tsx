@@ -73,7 +73,7 @@ const GuildPage: React.FC = () => {
                 setGuild(null);
                 setMaster(null);
                 setMembers(null);
-                setError(res.data.error);
+                setError('not found guild');
             }
         })
         .catch(err => {

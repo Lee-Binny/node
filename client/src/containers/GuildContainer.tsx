@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import GuildPage from '../components/guild/GuildPage';
 import RaidPage from '../components/raid/RaidPage';
-import LoginPage from '../components/login/LoginPage';
+import LoginPage from '../components/user/LoginPage';
+import Mypage from '../components/user/MyPage';
+import SignUpPage from '../components/user/SignUpPage';
 import ErrorModal from '../components/common/ErrorModal';
 import axios from 'axios';
 
@@ -12,6 +14,7 @@ export interface ILogin {
     userId: string;
     password: string;
     name: string;
+    level: number;
 }
 
 const GuildContainer: React.FC = () => {
@@ -23,27 +26,27 @@ const GuildContainer: React.FC = () => {
         id: 0,
         userId: '',
         password: '',
-        name: ''
+        name: '',
+        level: 0
     });
 
     const onSelect = (eventKey: string | null) => {
         if (eventKey === 'logout') {
             axios.get('/user/logout')
             .then(res => {
-                console.log(res.data)
                 if (res.data.ok) {
                     setLogin({
                         login: false,
                         id: 0,
                         userId: '',
                         password: '',
-                        name: ''
+                        name: '',
+                        level: 0
                     });
-                    return;
+                    setActive('home');
                 } else {
                     setShow(true);
                     setMessage(res.data.error);
-                    return;
                 }
             })
             .catch(err => {
@@ -62,6 +65,8 @@ const GuildContainer: React.FC = () => {
             case 'raid': return <RaidPage/>;
             case 'board': return null;
             case 'login': return <LoginPage setLogin={setLogin} />
+            case 'mypage': return <Mypage login={login} setLogin={setLogin} />
+            case 'signup': return <SignUpPage setLogin={setLogin}/>
         }
     }
 
@@ -91,11 +96,14 @@ const GuildContainer: React.FC = () => {
                             {
                                 login.login ? 
                                 <>
-                                    <Nav.Link>{login.name}님</Nav.Link>
+                                    <Nav.Link eventKey="mypage">{login.name}님</Nav.Link>
                                     <Nav.Link eventKey="logout">Log Out</Nav.Link>
                                 </>
                                 :
-                                <Nav.Link eventKey="login">Log In</Nav.Link>
+                                <>
+                                    <Nav.Link eventKey="signup">Sign Up</Nav.Link>
+                                    <Nav.Link eventKey="login">Sign In</Nav.Link>
+                                </>
                             }
                             
                         </Nav>
