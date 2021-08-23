@@ -16,8 +16,16 @@ const query = {
         user
         WHERE
         name = "${name}"`;
+    },
+    loginUser: (id, password) => {
+        return `
+        SELECT
+        *
+        FROM
+        user
+        WHERE
+        user_id = "${id}" AND password = "${password}"`;
     }
-
 }
 
 module.exports = query;

@@ -1,4 +1,4 @@
-const pool = require('../config/dbConnection');
+const pool = require('../db/dbConnection');
 const GuildQuery = require('./guild.query');
 const GuildModels = {
     getGuilds: async (guildName) => {

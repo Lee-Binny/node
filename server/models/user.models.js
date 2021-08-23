@@ -1,4 +1,4 @@
-const pool = require('../config/dbConnection');
+const pool = require('../db/dbConnection');
 const UserQuery = require('./user.query');
 const UserModels = {
     getUser: async (userId) => {
@@ -28,6 +28,21 @@ const UserModels = {
             return result[0];
         } catch (error) {
             console.error("get user model error: " + error);
+            throw error;
+        }
+    },
+    loginUser: async (id, password) => {
+        try {
+            const conn = await pool.getConnection();
+            const query = UserQuery.loginUser(id, password);
+            const [result] = await conn.query(query);
+            if (result.length === 0) {
+                throw 'Not Found User';
+            }
+            conn.release();
+            return result[0];
+        } catch (error) {
+            console.error("login model error: " + error);
             throw error;
         }
     }

@@ -1,4 +1,4 @@
-const pool = require('../config/dbConnection');
+const pool = require('../db/dbConnection');
 const RaidQuery = require('./raid.query');
 const RaidModels = {
     getRaids: async (guildId) => {
