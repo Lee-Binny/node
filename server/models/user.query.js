@@ -51,6 +51,13 @@ const query = {
         (user_id, password, name)
         VALUE
         ("${userId}", "${password}", "${name}")`;
+    },
+    deleteUser: (id) => {
+        return `
+        DELETE FROM
+        user
+        WHERE
+        id = ${id}`;
     }
 }
 

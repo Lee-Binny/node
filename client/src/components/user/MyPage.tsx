@@ -8,9 +8,10 @@ import { ILogin } from '../../containers/GuildContainer';
 interface IMyPageProps {
     login: ILogin;
     setLogin: Function;
+    setActive: Function;
 }
 
-const MyPage: React.FC<IMyPageProps> = ({login, setLogin}) => {
+const MyPage: React.FC<IMyPageProps> = ({ login, setLogin, setActive }) => {
     const [password, setPassword] = useState<string>('');
     const [show, setShow] = useState<boolean>(false);
     const [message, setMessage] = useState<string>('');
@@ -26,14 +27,15 @@ const MyPage: React.FC<IMyPageProps> = ({login, setLogin}) => {
             })
             .then(res => {
                 if (res.data.ok) {
-                    console.log(res.data);
                     setLogin({
-                        login: true,
-                        id: res.data.result.id,
-                        userId: res.data.result.user_id,
-                        password: res.data.result.password,
-                        name: res.data.result.name
-                    })
+                        login: false,
+                        id: 0,
+                        userId: '',
+                        password: '',
+                        name: '',
+                        level: 0
+                    });
+                    setActive('home');
                 } else {
                     setMessage('fail to delete user');
                     setShow(true);

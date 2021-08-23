@@ -65,7 +65,7 @@ const GuildContainer: React.FC = () => {
             case 'raid': return <RaidPage/>;
             case 'board': return null;
             case 'login': return <LoginPage setLogin={setLogin} />
-            case 'mypage': return <Mypage login={login} setLogin={setLogin} />
+            case 'mypage': return <Mypage login={login} setLogin={setLogin} setActive={setActive} />
             case 'signup': return <SignUpPage setLogin={setLogin}/>
         }
     }

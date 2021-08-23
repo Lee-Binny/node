@@ -80,6 +80,17 @@ const UserModels = {
             console.error("login model error: " + error);
             throw error;
         }
+    },
+    deleteUser: async (id) => {
+        try {
+            const conn = await pool.getConnection();
+            const query = UserQuery.deleteUser(id);
+            await conn.query(query);
+            return;
+        } catch (error) {
+            console.error("login model error: " + error);
+            throw error;
+        }
     }
 }
 

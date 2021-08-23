@@ -24,3 +24,17 @@ exports.signup = async (userId, password, name) => {
         throw error;
     }
 }
+
+exports.deleteUser = async (id, password) => {
+    try {
+        const user = await UserModel.getUser(id);
+        if (user.password !== password) {
+            throw 'not matched password';
+        }
+        await UserModel.deleteUser(id);
+        return;
+    } catch (e) {
+        console.error("sign up service error: " + error);
+        throw error;
+    }
+}

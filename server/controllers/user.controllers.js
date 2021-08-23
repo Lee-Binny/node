@@ -24,7 +24,6 @@ exports.logout = async (req, res) => {
     });
 }
 
-
 exports.signup = async (req, res) => {
     const { userId, password, name } = req.body.data
     try {
@@ -34,6 +33,23 @@ exports.signup = async (req, res) => {
         res.send({ok: true, result: result});
     } catch (error) {
         console.error("signup controllers error: " + error);
+        res.send({ok: false, error: error.message});
+    }
+}
+
+exports.deleteUser = async (req, res) => {
+    const { id, password } = req.body;
+    try {
+        await uesrService.deleteUser(id, password);
+        req.session.destroy(err => {
+            if (err) {
+                console.error("logout controllers error: " + err);
+                res.send({ok: false, error: err});
+            }
+        });
+        res.send({ok: true});
+    } catch (error) {
+        console.error("delete user controllers error: " + error);
         res.send({ok: false, error: error.message});
     }
 }
