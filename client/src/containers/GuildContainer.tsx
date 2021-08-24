@@ -6,6 +6,7 @@ import LoginPage from '../components/user/LoginPage';
 import Mypage from '../components/user/MyPage';
 import SignUpPage from '../components/user/SignUpPage';
 import ErrorModal from '../components/common/ErrorModal';
+import BoardPage from '../components/board/BoardPage';
 import axios from 'axios';
 
 export interface ILogin {
@@ -63,7 +64,7 @@ const GuildContainer: React.FC = () => {
         switch(active) {
             case 'home': return <GuildPage/>;
             case 'raid': return <RaidPage/>;
-            case 'board': return null;
+            case 'board': return <BoardPage name={login.name}/>;
             case 'login': return <LoginPage setLogin={setLogin} />
             case 'mypage': return <Mypage login={login} setLogin={setLogin} setActive={setActive} />
             case 'signup': return <SignUpPage setLogin={setLogin}/>
@@ -77,7 +78,7 @@ const GuildContainer: React.FC = () => {
     }, [login.login]);
 
     return (
-        <div>
+        <>
             <Navbar bg="dark" variant="dark">
                 <Container>
                     <Navbar.Brand>Guilds</Navbar.Brand>
@@ -113,7 +114,7 @@ const GuildContainer: React.FC = () => {
                 { setNavComponent() }
             </div>
             <ErrorModal show={show} setShow={setShow} message={message} />
-        </div>
+        </>
     )
 }
 

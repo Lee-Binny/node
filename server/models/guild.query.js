@@ -6,7 +6,7 @@ const query = {
         FROM
         guild
         WHERE
-        name = "${guildName}"`;
+        name = '${guildName}'`;
     }
 }
 

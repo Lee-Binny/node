@@ -15,7 +15,7 @@ const query = {
         FROM
         user
         WHERE
-        user_id = "${userId}"`;
+        user_id = '${userId}'`;
     },
     getUserByName: (name) => {
         return `
@@ -24,7 +24,7 @@ const query = {
         FROM
         user
         WHERE
-        name = "${name}"`;
+        name = '${name}'`;
     },
     getUserByUserIdOrName: (userId, name) => {
         return `
@@ -33,7 +33,7 @@ const query = {
         FROM
         user
         WHERE
-        user_id = "${userId}" OR name = "${name}"`;
+        user_id = '${userId}' OR name = '${name}'`;
     },
     loginUser: (id, password) => {
         return `
@@ -42,15 +42,15 @@ const query = {
         FROM
         user
         WHERE
-        user_id = "${id}" AND password = "${password}"`;
+        user_id = '${id}' AND password = '${password}'`;
     },
     signup: (userId, password, name) => {
         return `
         INSERT INTO
         user
         (user_id, password, name)
-        VALUE
-        ("${userId}", "${password}", "${name}")`;
+        VALUES
+        ('${userId}', '${password}', '${name}')`;
     },
     deleteUser: (id) => {
         return `
