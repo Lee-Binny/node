@@ -1,12 +1,23 @@
-const guildService = require('../services/guild.services');
+const raidService = require('../services/raid.services');
 
-exports.getGuild = async (req, res) => {
-    let guildName = req.query.guildName;
+exports.getRaids = async (req, res) => {
+    let guildId = req.query.guildId;
     try {
-        const { guild, master, guildMembers } = await guildService.getGuild(guildName);
-        res.send({ok: true, guild: guild, master: master, members: guildMembers});
+        const raids= await raidService.getRaids(guildId);
+        res.send({ok: true, result: raids})
     } catch (error) {
-        console.error("get guild controllers error: " + error);
+        console.error("get raids controllers error: " + error);
+        res.send({ok: false, error: error.message});
+    }
+}
+
+exports.insertRaid = async (req, res) => {
+    let { uid, name, guildId, title, color, boss, date} = req.body;
+    try {
+        const raid = await raidService.insertRaid(uid, name, guildId, title, color, boss, date);
+        res.send({ok: true, result: raid});
+    } catch (error) {
+        console.error("insert raid controllers error: " + error);
         res.send({ok: false, error: error.message});
     }
 }

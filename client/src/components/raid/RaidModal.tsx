@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form, Col, Row } from 'react-bootstrap';
 import { CirclePicker, ColorResult } from 'react-color';
+import { ILogin } from '../../containers/GuildContainer';
+import axios from 'axios';
 
 interface IRaidModalProps {
+    login: ILogin;
     date: string;
     show: boolean;
     mode: string;
     onHide: any;
+    setRaid: Function;
 }
 
-const RaidModal: React.FC<IRaidModalProps> = ({ show, onHide, mode, date }) => {
+const RaidModal: React.FC<IRaidModalProps> = ({ login, show, onHide, mode, date, setRaid }) => {
     const [color, setColor] = useState<string>("#f44336");
     const [title, setTitle] = useState<string>("");
+    const [boss, setBoss] = useState<number>(1);
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(e.target.value);
     }
@@ -19,6 +24,35 @@ const RaidModal: React.FC<IRaidModalProps> = ({ show, onHide, mode, date }) => {
     const onPickColor = (color: ColorResult, event: React.ChangeEvent<HTMLInputElement>) => {
         setColor(color.hex);
     }
+
+    const onSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setBoss(Number(e.target.value));
+    }
+
+    const onAdd = () => {
+        axios.post('/raid/insert', {
+            uid: login.id,
+            name: login.name,
+            guildId: login.guildId,
+            title: title,
+            color: color,
+            boss: boss,
+            date: date
+        })
+        .then(res => {
+            setRaid({
+                id: res.data.result.id.toString(),
+                title: res.data.result.title,
+                start: res.data.result.start,
+                boss: res.data.reuslt.boss,
+                color: res.data.result.color
+            });
+            onHide();
+        }).catch(err => {
+            console.log(err.error);
+        });
+    }
+
     return (
         <Modal
             show={show}
@@ -44,7 +78,7 @@ const RaidModal: React.FC<IRaidModalProps> = ({ show, onHide, mode, date }) => {
                     Host
                     </Form.Label>
                     <Col sm="10">
-                        <Form.Control type="text" readOnly placeholder="host" />
+                        <Form.Control type="text" readOnly defaultValue={login.name} />
                     </Col>
                 </Form.Group>
                 <Form.Group as={Row} className="mb-3">
@@ -57,6 +91,7 @@ const RaidModal: React.FC<IRaidModalProps> = ({ show, onHide, mode, date }) => {
                             value={title} 
                             onChange={onChange} 
                             placeholder="제목을 입력하세요." 
+                            required
                         />
                     </Col>
                 </Form.Group>
@@ -65,7 +100,7 @@ const RaidModal: React.FC<IRaidModalProps> = ({ show, onHide, mode, date }) => {
                     Boss
                     </Form.Label>
                     <Col sm="10">
-                        <Form.Control as="select" defaultValue="1">
+                        <Form.Control as="select" defaultValue="1" onSelect={onSelect}>
                             <option value="1">보스 1</option>
                             <option value="2">보스 2</option>
                             <option value="3">보스 3</option>
@@ -87,7 +122,7 @@ const RaidModal: React.FC<IRaidModalProps> = ({ show, onHide, mode, date }) => {
                 {
                     mode === 'insert' ? 
                     <>
-                        <Button onClick={onHide}>Add</Button>
+                        <Button onClick={onAdd}>Add</Button>
                         <Button variant="secondary" onClick={onHide}>Close</Button>
                     </>
                     : 

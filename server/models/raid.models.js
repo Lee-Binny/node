@@ -1,6 +1,23 @@
 const pool = require('../db/dbConnection');
 const RaidQuery = require('./raid.query');
+
 const RaidModels = {
+    getRaid: async (raidId) => {
+        try {
+            const conn = await pool.getConnection();
+            const query = RaidQuery.getRaid(raidId);
+            const [result] = await conn.query(query);
+            if (result.length === 0) {
+                throw 'Not Found Raid';
+            }
+
+            conn.release();
+            return result[0];
+        } catch (error) {
+            console.error("get raid model error: " + error);
+            throw error;
+        }
+    },
     getRaids: async (guildId) => {
         try {
             const conn = await pool.getConnection();
@@ -9,7 +26,23 @@ const RaidModels = {
             conn.release();
             return result;
         } catch (error) {
-            console.error("get raid model error: " + error);
+            console.error("get raids model error: " + error);
+            throw error;
+        }
+    },
+    insertRaid: async (guildId, title, color, boss, date) => {
+        try {
+            const conn = await pool.getConnection();
+            const query = RaidQuery.insertRaid(guildId, title, color, boss, date);
+            const [result] = await conn.query(query);
+            if (result.length === 0) {
+                throw 'Not Found Raids';
+            }
+
+            conn.release();
+            return result;
+        } catch (error) {
+            console.error("get raids model error: " + error);
             throw error;
         }
     }

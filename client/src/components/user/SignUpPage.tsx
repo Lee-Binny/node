@@ -42,7 +42,8 @@ const SignUpPage: React.FC<ISignUpPageProps> = ({setLogin}) => {
                         userId: res.data.result.user_id,
                         password: res.data.result.password,
                         name: res.data.result.name,
-                        level: res.data.result.level
+                        level: res.data.result.level,
+                        guildId: 0
                     })
                 } else {
                     setMessage('already exist id or name');

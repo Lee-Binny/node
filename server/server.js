@@ -7,6 +7,7 @@ const app = express();
 const guildRouter = require('./routers/guild.routers');
 const userRouter = require('./routers/user.routers');
 const boardRouter = require('./routers/board.routers');
+const raidRouter = require('./routers/raid.routers');
 
 app.use(express.static(path.join(__dirname, '../client/build')));
 app.use(session({
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use('/guild', guildRouter);
 app.use('/user', userRouter);
 app.use('/board', boardRouter);
+app.use('/raid', raidRouter);
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/build/index.html'));

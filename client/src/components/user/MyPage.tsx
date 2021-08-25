@@ -33,7 +33,8 @@ const MyPage: React.FC<IMyPageProps> = ({ login, setLogin, setActive }) => {
                         userId: '',
                         password: '',
                         name: '',
-                        level: 0
+                        level: 0,
+                        guildId: 0
                     });
                     setActive('home');
                 } else {

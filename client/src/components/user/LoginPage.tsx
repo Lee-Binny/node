@@ -28,14 +28,23 @@ const LoginPage: React.FC<ILoginPageProps> = ({setLogin}) => {
         })
         .then(res => {
             if (res.data.ok) {
+                let guildId: number = 0;
+                if (res.data.guild) {
+                    guildId = res.data.guild.id;
+                }
                 setLogin({
                     login: true,
-                    id: res.data.result.id,
-                    userId: res.data.result.user_id,
-                    password: res.data.result.password,
-                    name: res.data.result.name,
-                    level: res.data.result.level
+                    id: res.data.login.id,
+                    userId: res.data.login.user_id,
+                    password: res.data.login.password,
+                    name: res.data.login.name,
+                    level: res.data.login.level,
+                    guildId: guildId
                 })
+                sessionStorage.setItem('user_id', res.data.login.user_id);
+                sessionStorage.setItem('uid', res.data.login.id);
+                sessionStorage.setItem('name', res.data.login.name);
+                sessionStorage.setItem('guildId', res.data.login.guild_id);
             } else {
                 setMessage('not found user');
                 setShow(true);

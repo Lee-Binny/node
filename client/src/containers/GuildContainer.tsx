@@ -16,6 +16,7 @@ export interface ILogin {
     password: string;
     name: string;
     level: number;
+    guildId: number;
 }
 
 const GuildContainer: React.FC = () => {
@@ -28,7 +29,8 @@ const GuildContainer: React.FC = () => {
         userId: '',
         password: '',
         name: '',
-        level: 0
+        level: 0,
+        guildId: 0
     });
 
     const onSelect = (eventKey: string | null) => {
@@ -42,7 +44,8 @@ const GuildContainer: React.FC = () => {
                         userId: '',
                         password: '',
                         name: '',
-                        level: 0
+                        level: 0,
+                        guildId: 0
                     });
                     setActive('home');
                 } else {
@@ -63,7 +66,7 @@ const GuildContainer: React.FC = () => {
     const setNavComponent = () => {
         switch(active) {
             case 'home': return <GuildPage/>;
-            case 'raid': return <RaidPage/>;
+            case 'raid': return <RaidPage login={login}/>;
             case 'board': return <BoardPage name={login.name}/>;
             case 'login': return <LoginPage setLogin={setLogin} />
             case 'mypage': return <Mypage login={login} setLogin={setLogin} setActive={setActive} />
@@ -76,6 +79,10 @@ const GuildContainer: React.FC = () => {
             setActive('home');
         }
     }, [login.login]);
+
+    useEffect(() => {
+        console.log(sessionStorage.getItem('user_id'));
+    }, []);
 
     return (
         <>

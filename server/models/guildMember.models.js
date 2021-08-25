@@ -16,6 +16,18 @@ const GuildMemberModels = {
             console.error("get guild member model error: " + error);
             throw error;
         }
+    },
+    getMyGuild: async (userId) => {
+        try {
+            const conn = await pool.getConnection();
+            const query = GuildMemberQuery.getMyGuild(userId);
+            const [result] = await conn.query(query);
+            conn.release();
+            return result[0];
+        } catch (error) {
+            console.error("get my guild model error: " + error);
+            throw error;
+        }
     }
 }
 

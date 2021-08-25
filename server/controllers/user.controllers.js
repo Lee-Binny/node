@@ -3,10 +3,10 @@ const uesrService = require('../services/user.services');
 exports.login = async (req, res) => {
     let { id, password } = req.body;
     try {
-        const result = await uesrService.loginUser(id, password);
-        req.session.uid = result.id;
-        req.session.userId = result.user_id;
-        res.send({ok: true, result: result});
+        const { login, guild } = await uesrService.loginUser(id, password);
+        req.session.uid = login.id;
+        req.session.userId = login.user_id;
+        res.send({ok: true, login: login, guild: guild});
     } catch (error) {
         console.error("login controllers error: " + error);
         res.send({ok: false, error: error.message});

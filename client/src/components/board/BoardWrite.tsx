@@ -35,7 +35,7 @@ const BoardPage: React.FC<IBoardWriteProps> = ({ name, setMode }) => {
             if (res.data.ok) {
                 setMode('read');
             } else {
-                setMessage('already exist id or name');
+                setMessage('fail to write a board');
                 setShow(true);
             }
         })
