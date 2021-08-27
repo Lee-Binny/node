@@ -4,11 +4,12 @@ import ErrorModal from '../common/ErrorModal';
 import axios from 'axios';
 import './User.css';
 
-interface ILoginPageProps {
-    setLogin: Function
+interface ILoginProps {
+    setActive: Function;
+    setSignIn: Function;
 }
 
-const LoginPage: React.FC<ILoginPageProps> = ({setLogin}) => {
+const LoginPage: React.FC<ILoginProps> = ({ setActive, setSignIn }) => {
     const [id, setId] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [show, setShow] = useState<boolean>(false);
@@ -32,19 +33,13 @@ const LoginPage: React.FC<ILoginPageProps> = ({setLogin}) => {
                 if (res.data.guild) {
                     guildId = res.data.guild.id;
                 }
-                setLogin({
-                    login: true,
-                    id: res.data.login.id,
-                    userId: res.data.login.user_id,
-                    password: res.data.login.password,
-                    name: res.data.login.name,
-                    level: res.data.login.level,
-                    guildId: guildId
-                })
-                sessionStorage.setItem('user_id', res.data.login.user_id);
                 sessionStorage.setItem('uid', res.data.login.id);
+                sessionStorage.setItem('userId', res.data.login.user_id);
                 sessionStorage.setItem('name', res.data.login.name);
-                sessionStorage.setItem('guildId', res.data.login.guild_id);
+                sessionStorage.setItem('level', res.data.login.level);
+                sessionStorage.setItem('guildId', guildId.toString());
+                setActive('home');
+                setSignIn(true);
             } else {
                 setMessage('not found user');
                 setShow(true);

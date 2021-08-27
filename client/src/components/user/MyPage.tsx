@@ -3,18 +3,28 @@ import { Card, Button, Form, Row, Col } from 'react-bootstrap';
 import ErrorModal from '../common/ErrorModal';
 import axios from 'axios';
 import './User.css';
-import { ILogin } from '../../containers/GuildContainer';
 
 interface IMyPageProps {
-    login: ILogin;
-    setLogin: Function;
     setActive: Function;
+    setSignIn: Function;
 }
 
-const MyPage: React.FC<IMyPageProps> = ({ login, setLogin, setActive }) => {
+interface IUserInfo {
+    userId: string | null;
+    name: string | null;
+    level: string | null;
+}
+
+const MyPage: React.FC<IMyPageProps> = ({ setActive, setSignIn }) => {
     const [password, setPassword] = useState<string>('');
     const [show, setShow] = useState<boolean>(false);
     const [message, setMessage] = useState<string>('');
+    const [userInfo, setUserInfo] = useState<IUserInfo>({
+        userId: sessionStorage.getItem('userId'),
+        name: sessionStorage.getItem('name'),
+        level: sessionStorage.getItem('level')
+    });
+
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value);
     }
@@ -22,21 +32,18 @@ const MyPage: React.FC<IMyPageProps> = ({ login, setLogin, setActive }) => {
     const onDelete = () => {
         if (password !== '') {
             axios.post('/user/delete', {
-                id: login.id,
+                id: sessionStorage.getItem('uid'),
                 password: password
             })
             .then(res => {
                 if (res.data.ok) {
-                    setLogin({
-                        login: false,
-                        id: 0,
-                        userId: '',
-                        password: '',
-                        name: '',
-                        level: 0,
-                        guildId: 0
-                    });
+                    sessionStorage.removeItem('uid');
+                    sessionStorage.removeItem('userId');
+                    sessionStorage.removeItem('name');
+                    sessionStorage.removeItem('level');
+                    sessionStorage.removeItem('guildId');                          
                     setActive('home');
+                    setSignIn(false);
                 } else {
                     setMessage('fail to delete user');
                     setShow(true);
@@ -63,7 +70,9 @@ const MyPage: React.FC<IMyPageProps> = ({ login, setLogin, setActive }) => {
                             ID
                             </Form.Label>
                             <Col sm="10">
-                                <Form.Control plaintext readOnly defaultValue={login.userId} />
+                                { userInfo.userId && (
+                                    <Form.Control plaintext readOnly defaultValue={userInfo.userId} />
+                                )}
                             </Col>
                         </Form.Group>
 
@@ -87,7 +96,9 @@ const MyPage: React.FC<IMyPageProps> = ({ login, setLogin, setActive }) => {
                             Level
                             </Form.Label>
                             <Col sm="10">
-                                <Form.Control plaintext defaultValue={login.level} />
+                                { userInfo.level && (
+                                    <Form.Control plaintext defaultValue={userInfo.level} />
+                                )}
                             </Col>
                         </Form.Group>
 
@@ -96,7 +107,11 @@ const MyPage: React.FC<IMyPageProps> = ({ login, setLogin, setActive }) => {
                             Name
                             </Form.Label>
                             <Col sm="10">
-                                <Form.Control plaintext placeholder={login.name} />
+                                {
+                                    userInfo.name && (
+                                        <Form.Control plaintext placeholder={userInfo.name} />
+                                    )
+                                }
                             </Col>
                         </Form.Group>
                         <div className="button-group">

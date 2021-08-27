@@ -9,45 +9,24 @@ import ErrorModal from '../components/common/ErrorModal';
 import BoardPage from '../components/board/BoardPage';
 import axios from 'axios';
 
-export interface ILogin {
-    login: boolean;
-    id: number;
-    userId: string;
-    password: string;
-    name: string;
-    level: number;
-    guildId: number;
-}
-
 const GuildContainer: React.FC = () => {
     const [active, setActive] = useState<string>('home');
     const [show, setShow] = useState<boolean>(false);
+    const [signIn, setSignIn] = useState<boolean>(false);
     const [message, setMessage] = useState<string>('');
-    const [login, setLogin] = useState<ILogin>({
-        login: false,
-        id: 0,
-        userId: '',
-        password: '',
-        name: '',
-        level: 0,
-        guildId: 0
-    });
 
     const onSelect = (eventKey: string | null) => {
         if (eventKey === 'logout') {
             axios.get('/user/logout')
             .then(res => {
                 if (res.data.ok) {
-                    setLogin({
-                        login: false,
-                        id: 0,
-                        userId: '',
-                        password: '',
-                        name: '',
-                        level: 0,
-                        guildId: 0
-                    });
+                    sessionStorage.removeItem('uid');
+                    sessionStorage.removeItem('userId');
+                    sessionStorage.removeItem('name');
+                    sessionStorage.removeItem('level');
+                    sessionStorage.removeItem('guildId');  
                     setActive('home');
+                    setSignIn(false);
                 } else {
                     setShow(true);
                     setMessage(res.data.error);
@@ -56,7 +35,6 @@ const GuildContainer: React.FC = () => {
             .catch(err => {
                 setShow(true);
                 setMessage(err.error);
-                return;
             });
         } else if (eventKey) {
             setActive(eventKey);
@@ -65,23 +43,21 @@ const GuildContainer: React.FC = () => {
 
     const setNavComponent = () => {
         switch(active) {
-            case 'home': return <GuildPage/>;
-            case 'raid': return <RaidPage login={login}/>;
-            case 'board': return <BoardPage name={login.name}/>;
-            case 'login': return <LoginPage setLogin={setLogin} />
-            case 'mypage': return <Mypage login={login} setLogin={setLogin} setActive={setActive} />
-            case 'signup': return <SignUpPage setLogin={setLogin}/>
+            case 'home': return <GuildPage />;
+            case 'raid': return <RaidPage />;
+            case 'board': return <BoardPage />;
+            case 'login': return <LoginPage setActive={setActive} setSignIn={setSignIn} />
+            case 'mypage': return <Mypage setActive={setActive} setSignIn={setSignIn}/>
+            case 'signup': return <SignUpPage setActive={setActive}/>
         }
     }
 
     useEffect(() => {
-        if (login.login) {
-            setActive('home');
+        if (sessionStorage.getItem('userId') !== null) {
+            setSignIn(true);
+        } else {
+            setSignIn(false);
         }
-    }, [login.login]);
-
-    useEffect(() => {
-        console.log(sessionStorage.getItem('user_id'));
     }, []);
 
     return (
@@ -101,10 +77,9 @@ const GuildContainer: React.FC = () => {
                         <Nav
                             onSelect={onSelect} 
                         >
-                            {
-                                login.login ? 
+                            { signIn ? 
                                 <>
-                                    <Nav.Link eventKey="mypage">{login.name}님</Nav.Link>
+                                    <Nav.Link eventKey="mypage">{sessionStorage.getItem('name')}님</Nav.Link>
                                     <Nav.Link eventKey="logout">Log Out</Nav.Link>
                                 </>
                                 :
@@ -113,7 +88,6 @@ const GuildContainer: React.FC = () => {
                                     <Nav.Link eventKey="login">Sign In</Nav.Link>
                                 </>
                             }
-                            
                         </Nav>
                 </Container>
             </Navbar>

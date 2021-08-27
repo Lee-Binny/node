@@ -5,11 +5,7 @@ import './Board.css';
 import BoardList from './BoardList';
 import BoardWrite from './BoardWrite';
 
-interface IBoardPageProps {
-    name: string;
-}
-
-const BoardPage: React.FC<IBoardPageProps> = ({ name }) => {
+const BoardPage: React.FC = () => {
     const [mode, setMode] = useState<string>('list');
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         //setGuildName(e.target.value);
@@ -22,7 +18,7 @@ const BoardPage: React.FC<IBoardPageProps> = ({ name }) => {
     const setBoardComponent = () => {
         switch (mode) {
             case 'list': return <BoardList />;
-            case 'write': return <BoardWrite name={name} setMode={setMode} />;
+            case 'write': return <BoardWrite setMode={setMode} />;
         }
     }
 

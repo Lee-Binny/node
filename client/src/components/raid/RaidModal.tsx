@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form, Col, Row } from 'react-bootstrap';
 import { CirclePicker, ColorResult } from 'react-color';
-import { ILogin } from '../../containers/GuildContainer';
 import axios from 'axios';
 
 interface IRaidModalProps {
-    login: ILogin;
+    name: string | null;
     date: string;
     show: boolean;
     mode: string;
@@ -13,7 +12,7 @@ interface IRaidModalProps {
     setRaid: Function;
 }
 
-const RaidModal: React.FC<IRaidModalProps> = ({ login, show, onHide, mode, date, setRaid }) => {
+const RaidModal: React.FC<IRaidModalProps> = ({ name, show, onHide, mode, date, setRaid }) => {
     const [color, setColor] = useState<string>("#f44336");
     const [title, setTitle] = useState<string>("");
     const [boss, setBoss] = useState<number>(1);
@@ -31,9 +30,9 @@ const RaidModal: React.FC<IRaidModalProps> = ({ login, show, onHide, mode, date,
 
     const onAdd = () => {
         axios.post('/raid/insert', {
-            uid: login.id,
-            name: login.name,
-            guildId: login.guildId,
+            uid: sessionStorage.getItem('uid'),
+            name: sessionStorage.getItem('name'),
+            guildId: sessionStorage.getItem('guildId'),
             title: title,
             color: color,
             boss: boss,
@@ -78,7 +77,9 @@ const RaidModal: React.FC<IRaidModalProps> = ({ login, show, onHide, mode, date,
                     Host
                     </Form.Label>
                     <Col sm="10">
-                        <Form.Control type="text" readOnly defaultValue={login.name} />
+                        { name && (
+                            <Form.Control type="text" readOnly defaultValue={name} />
+                        )}  
                     </Col>
                 </Form.Group>
                 <Form.Group as={Row} className="mb-3">

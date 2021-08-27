@@ -5,22 +5,22 @@ import ErrorModal from '../common/ErrorModal';
 import axios from 'axios';
 import './User.css';
 
-interface ISignUpPageProps {
-    setLogin: Function;
+interface ISignUpProps {
+    setActive: Function;
 }
 
-interface ISingUp {
+interface ISignUp {
     userId: string;
     password: string;
     confirm: string;
     name: string;
 }
 
-const SignUpPage: React.FC<ISignUpPageProps> = ({setLogin}) => {
+const SignUpPage: React.FC<ISignUpProps> = ({ setActive }) => {
     const [show, setShow] = useState<boolean>(false);
     const [confirm, setConfirm] = useState<boolean>(true);
     const [message, setMessage] = useState<string>('');
-    const { handleSubmit, setValue } = useForm<ISingUp>({
+    const { handleSubmit, setValue } = useForm<ISignUp>({
         defaultValues: {
             userId: '',
             password: '',
@@ -29,22 +29,14 @@ const SignUpPage: React.FC<ISignUpPageProps> = ({setLogin}) => {
         }
     });
     
-    const onSubmit = (data: ISingUp) => {
+    const onSubmit = (data: ISignUp) => {
         if (data.password === data.confirm) {
             axios.post('/user/signup', {
                 data
             })
             .then(res => {
                 if (res.data.ok) {
-                    setLogin({
-                        login: true,
-                        id: res.data.result.id,
-                        userId: res.data.result.user_id,
-                        password: res.data.result.password,
-                        name: res.data.result.name,
-                        level: res.data.result.level,
-                        guildId: 0
-                    })
+                    setActive('login');
                 } else {
                     setMessage('already exist id or name');
                     setShow(true);

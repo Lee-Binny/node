@@ -6,7 +6,6 @@ import ErrorModal from '../common/ErrorModal';
 import './Board.css';
 
 interface IBoardWriteProps {
-    name: string;
     setMode: Function;
 }
 
@@ -16,18 +15,23 @@ interface IWrite {
     name: string;
 }
 
-const BoardPage: React.FC<IBoardWriteProps> = ({ name, setMode }) => {
+const BoardPage: React.FC<IBoardWriteProps> = ({ setMode }) => {
     const [show, setShow] = useState<boolean>(false);
     const [message, setMessage] = useState<string>('');
     const { handleSubmit, setValue } = useForm<IWrite>({
         defaultValues: {
             title: '',
             desc: '',
-            name: name
+            name: ''
         }
     });
 
     const onSubmit = (data: IWrite) => {
+        const name = sessionStorage.getItem('name')
+        if (name) {
+            data['name'] = name;
+        }
+        
         axios.post('/board/write', {
             data
         })
