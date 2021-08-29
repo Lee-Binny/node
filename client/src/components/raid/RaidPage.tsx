@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FullCalendar, { EventClickArg, EventInput } from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import InteractionPlugin from '@fullcalendar/interaction';
@@ -6,34 +6,15 @@ import RaidModal from './RaidModal';
 import { Alert } from 'react-bootstrap';
 import axios from 'axios';
 
-interface IRaid {
-    id: number;
-    title: string;
-    boss: number;
-    start: string;
-    color: string;
-}
-
 const RaidPage: React.FC = () => {
     const [show, setShow] = useState<boolean>(false);
     const [date, setDate] = useState<string>('');
     const [mode, setMode] = useState<string>('insert');
-    const [raid, setRaid] = useState<IRaid | null>(null);
+    const [raid, setRaid] = useState<EventInput[]>([]);
 
-    // const addRaid = (raid: IRaid, selectInfo: DateSelectArg) => {
-    //     let calendarApi = selectInfo.view.calendar;
-    //     calendarApi.unselect();
-    //     calendarApi.addEvent({
-    //         id: raid.id.toString(),
-    //         title: '[' + raid.boss + '] ' + raid.title,
-    //         start: raid.start,
-    //         allDay: true
-    //     });
-    // }
-
-    const getRaids = () :any => {
+    const getRaids = () => {
         let raids: EventInput[] = [];
-        if (sessionStorage.getItem('guildId') &&  sessionStorage.getItem('guildId') !=='0') {
+        if (sessionStorage.getItem('guildId') && sessionStorage.getItem('guildId') !=='0') {
             axios.get('/raid?guildId=' + sessionStorage.getItem('guildId'))
             .then(res => {
                 if (res.data.ok) {
@@ -49,15 +30,12 @@ const RaidPage: React.FC = () => {
                         raids.push(newRaid);
                     })
                 }
-                console.log(raids);
-                return raids;
+                setRaid(raids)
             })
             .catch(err => {
                 console.log(err.error);
-                return null;
             })
-        }
-        
+        }    
     };
 
     const onHide = () => {
@@ -75,6 +53,10 @@ const RaidPage: React.FC = () => {
         setShow(true);
     }
 
+    useEffect(() => {
+        getRaids();
+    }, [show])
+
     return (
         <div>
             {
@@ -87,9 +69,9 @@ const RaidPage: React.FC = () => {
                     <FullCalendar
                         plugins={[ dayGridPlugin, InteractionPlugin ]}
                         initialView="dayGridMonth"
-                        initialEvents={getRaids()}
                         dateClick={onDayClick}
                         eventClick={onEventClick}
+                        events={raid}
                     />
                     {
                         <RaidModal 
@@ -98,7 +80,6 @@ const RaidPage: React.FC = () => {
                             show={show} 
                             mode={mode} 
                             onHide={onHide} 
-                            setRaid={setRaid}
                         />
                     }
                     

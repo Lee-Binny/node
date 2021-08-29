@@ -9,10 +9,9 @@ interface IRaidModalProps {
     show: boolean;
     mode: string;
     onHide: any;
-    setRaid: Function;
 }
 
-const RaidModal: React.FC<IRaidModalProps> = ({ name, show, onHide, mode, date, setRaid }) => {
+const RaidModal: React.FC<IRaidModalProps> = ({ name, show, onHide, mode, date }) => {
     const [color, setColor] = useState<string>("#f44336");
     const [title, setTitle] = useState<string>("");
     const [boss, setBoss] = useState<number>(1);
@@ -24,7 +23,7 @@ const RaidModal: React.FC<IRaidModalProps> = ({ name, show, onHide, mode, date, 
         setColor(color.hex);
     }
 
-    const onSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const onSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
         setBoss(Number(e.target.value));
     }
 
@@ -39,14 +38,9 @@ const RaidModal: React.FC<IRaidModalProps> = ({ name, show, onHide, mode, date, 
             date: date
         })
         .then(res => {
-            setRaid({
-                id: res.data.result.id.toString(),
-                title: res.data.result.title,
-                start: res.data.result.start,
-                boss: res.data.reuslt.boss,
-                color: res.data.result.color
-            });
-            onHide();
+            if (res.data.ok) {
+                onHide();
+            }
         }).catch(err => {
             console.log(err.error);
         });
@@ -101,7 +95,7 @@ const RaidModal: React.FC<IRaidModalProps> = ({ name, show, onHide, mode, date, 
                     Boss
                     </Form.Label>
                     <Col sm="10">
-                        <Form.Control as="select" defaultValue="1" onSelect={onSelect}>
+                        <Form.Control as="select" defaultValue="1" onChange={onSelect}>
                             <option value="1">보스 1</option>
                             <option value="2">보스 2</option>
                             <option value="3">보스 3</option>
@@ -122,17 +116,11 @@ const RaidModal: React.FC<IRaidModalProps> = ({ name, show, onHide, mode, date, 
             <Modal.Footer>
                 {
                     mode === 'insert' ? 
-                    <>
                         <Button onClick={onAdd}>Add</Button>
-                        <Button variant="secondary" onClick={onHide}>Close</Button>
-                    </>
                     : 
-                    <>
                         <Button variant="success" onClick={onHide}>Update</Button>
-                        <Button variant="secondary" onClick={onHide}>Close</Button>
-                    </>
                 }
-                
+                <Button variant="secondary" onClick={onHide}>Close</Button>
             </Modal.Footer>                           
         </Modal>
     )
