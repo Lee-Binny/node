@@ -17,13 +17,22 @@ const query = {
         WHERE
         guild_id = ${guildId}`;
     },
-    insertRaid: (guildId, title, color, boss, date) => {
+    insertRaid: (guildId, title, name, color, boss, date) => {
         return `
         INSERT INTO
         raid
-        (guild_id, title, color, boss_id, date)
+        (guild_id, title, name, color, boss_id, date)
         VALUES
-        (${guildId}, '${title}', '${color}', ${boss}, '${date}')`;
+        (${guildId}, '${title}', '${name}', '${color}', ${boss}, '${date}')`;
+    },
+    updateRaid: (id, title, color, boss) => {
+        return `
+        UPDATE
+        raid
+        SET
+        title = '${title}', color = '${color}', boss_id = ${boss}
+        WHERE
+        id = ${id}`;
     }
 }
 

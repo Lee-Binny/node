@@ -21,3 +21,14 @@ exports.insertRaid = async (req, res) => {
         res.send({ok: false, error: error.message});
     }
 }
+
+exports.updateRaid = async (req, res) => {
+    let { id, title, color, boss } = req.body;
+    try {
+        await raidService.updateRaid(id, title, color, boss);
+        res.send({ok: true});
+    } catch (error) {
+        console.error("update raid controllers error: " + error);
+        res.send({ok: false, error: error.message});
+    }
+}

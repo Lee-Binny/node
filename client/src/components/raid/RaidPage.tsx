@@ -6,11 +6,26 @@ import RaidModal from './RaidModal';
 import { Alert } from 'react-bootstrap';
 import axios from 'axios';
 
+export interface IRaid {
+    id: number;
+    title: string;
+    boss: number;
+    color: string;
+    name: string;
+}
+
 const RaidPage: React.FC = () => {
     const [show, setShow] = useState<boolean>(false);
     const [date, setDate] = useState<string>('');
     const [mode, setMode] = useState<string>('insert');
-    const [raid, setRaid] = useState<EventInput[]>([]);
+    const [event, setEvent] = useState<EventInput[]>([]);
+    const [raid, setRaid] = useState<IRaid>({
+        id: 0,
+        title: '',
+        boss: 0,
+        color: '',
+        name: ''
+    });
 
     const getRaids = () => {
         let raids: EventInput[] = [];
@@ -22,6 +37,7 @@ const RaidPage: React.FC = () => {
                         let newRaid: EventInput = ({
                             id: value.id.toString(),
                             boss: value.boss_id,
+                            name: value.name,
                             title: '[' + value.boss_id + '] ' + value.title,
                             start: value.date,
                             color: value.color,
@@ -30,7 +46,7 @@ const RaidPage: React.FC = () => {
                         raids.push(newRaid);
                     })
                 }
-                setRaid(raids)
+                setEvent(raids);
             })
             .catch(err => {
                 console.log(err.error);
@@ -49,6 +65,14 @@ const RaidPage: React.FC = () => {
     }
 
     const onEventClick = (arg: EventClickArg) => {
+        setDate(arg.event.startStr);
+        setRaid({
+            id: Number(arg.event._def.publicId),
+            title: arg.event.title.substring(4),
+            boss: arg.event._def.extendedProps.boss,
+            color: arg.event.backgroundColor,
+            name: arg.event._def.extendedProps.name
+        });
         setMode('update');
         setShow(true);
     }
@@ -71,7 +95,7 @@ const RaidPage: React.FC = () => {
                         initialView="dayGridMonth"
                         dateClick={onDayClick}
                         eventClick={onEventClick}
-                        events={raid}
+                        events={event}
                     />
                     {
                         <RaidModal 
@@ -80,9 +104,9 @@ const RaidPage: React.FC = () => {
                             show={show} 
                             mode={mode} 
                             onHide={onHide} 
+                            raid={raid}
                         />
-                    }
-                    
+                    }   
                 </>
             }    
         </div>

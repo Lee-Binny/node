@@ -13,12 +13,22 @@ exports.getRaids = async (guildId) => {
 
 exports.insertRaid = async (uid, name, guildId, title, color, boss, date) => {
     try {
-        const raid = await RaidModel.insertRaid(guildId, title, color, boss, date);
+        const raid = await RaidModel.insertRaid(guildId, title, name, color, boss, date);
         await RaidMemberModel.insertRaidMember(raid.insertId, uid, name);
         const result = await RaidModel.getRaid(raid.insertId);
         return result;
     } catch (e) {
         console.error("insert raid service error: " + error);
+        throw error;
+    }
+}
+
+exports.updateRaid = async (id, title, color, boss) => {
+    try {
+        await RaidModel.updateRaid(id, title, color, boss);
+        return ;
+    } catch (e) {
+        console.error("update raid service error: " + error);
         throw error;
     }
 }

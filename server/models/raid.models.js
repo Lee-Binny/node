@@ -30,10 +30,11 @@ const RaidModels = {
             throw error;
         }
     },
-    insertRaid: async (guildId, title, color, boss, date) => {
+    insertRaid: async (guildId, title, name, color, boss, date) => {
         try {
             const conn = await pool.getConnection();
-            const query = RaidQuery.insertRaid(guildId, title, color, boss, date);
+            const query = RaidQuery.insertRaid(guildId, title, name, color, boss, date);
+            console.log(query);
             const [result] = await conn.query(query);
             if (result.length === 0) {
                 throw 'Not Found Raids';
@@ -42,7 +43,20 @@ const RaidModels = {
             conn.release();
             return result;
         } catch (error) {
-            console.error("get raids model error: " + error);
+            console.error("insert raid model error: " + error);
+            throw error;
+        }
+    },
+    updateRaid: async (id, title, color, boss) => {
+        try {
+            const conn = await pool.getConnection();
+            const query = RaidQuery.updateRaid(id, title, color, boss);
+            await conn.query(query);
+
+            conn.release();
+            return ;
+        } catch (error) {
+            console.error("update raid model error: " + error);
             throw error;
         }
     }
