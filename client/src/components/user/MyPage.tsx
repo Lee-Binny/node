@@ -13,16 +13,18 @@ interface IUserInfo {
     userId: string | null;
     name: string | null;
     level: string | null;
+    guildName: string | null;
 }
 
 const MyPage: React.FC<IMyPageProps> = ({ setActive, setSignIn }) => {
     const [password, setPassword] = useState<string>('');
     const [show, setShow] = useState<boolean>(false);
     const [message, setMessage] = useState<string>('');
-    const [userInfo, setUserInfo] = useState<IUserInfo>({
+    const [userInfo] = useState<IUserInfo>({
         userId: sessionStorage.getItem('userId'),
         name: sessionStorage.getItem('name'),
-        level: sessionStorage.getItem('level')
+        level: sessionStorage.getItem('level'),
+        guildName: sessionStorage.getItem('guildName')
     });
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -110,6 +112,19 @@ const MyPage: React.FC<IMyPageProps> = ({ setActive, setSignIn }) => {
                                 {
                                     userInfo.name && (
                                         <Form.Control plaintext placeholder={userInfo.name} />
+                                    )
+                                }
+                            </Col>
+                        </Form.Group>
+
+                        <Form.Group as={Row} className="mb-3">
+                            <Form.Label column sm="2">
+                            Guild
+                            </Form.Label>
+                            <Col sm="10">
+                                {
+                                    userInfo.guildName && (
+                                        <Form.Control plaintext placeholder={userInfo.guildName} />
                                     )
                                 }
                             </Col>

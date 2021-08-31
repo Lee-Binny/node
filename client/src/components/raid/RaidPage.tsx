@@ -84,7 +84,7 @@ const RaidPage: React.FC = () => {
     return (
         <div>
             {
-                !sessionStorage.getItem('guildId') ? 
+                !sessionStorage.getItem('guildId') || sessionStorage.getItem('guildId') === '0' ? 
                 <Alert variant="danger">
                     There are no guilds joined.
                 </Alert>

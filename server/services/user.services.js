@@ -1,10 +1,15 @@
 const UserModel = require('../models/user.models');
+const GuildModel = require('../models/guild.models');
 const GuildMemberModel = require('../models/guildMember.models');
 
 exports.loginUser = async (id, password) => {
     try {
         const login  = await UserModel.loginUser(id, password);
         const guild  = await GuildMemberModel.getMyGuild(login.id);
+        if (guild) {
+            const guildName = await GuildModel.getGuildName(guild.guild_id);
+            guild.name = guildName.name;
+        }
         return { login, guild };
     } catch (e) {
         console.error("log in service error: " + error);

@@ -7,7 +7,16 @@ const query = {
         guild
         WHERE
         name = '${guildName}'`;
-    }
+    },
+    getGuildName: (guildId) => {
+        return `
+        SELECT
+        name
+        FROM
+        guild
+        WHERE
+        id = ${guildId}`;
+    },
 }
 
 module.exports = query;

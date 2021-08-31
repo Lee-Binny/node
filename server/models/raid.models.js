@@ -34,7 +34,6 @@ const RaidModels = {
         try {
             const conn = await pool.getConnection();
             const query = RaidQuery.insertRaid(guildId, title, name, color, boss, date);
-            console.log(query);
             const [result] = await conn.query(query);
             if (result.length === 0) {
                 throw 'Not Found Raids';

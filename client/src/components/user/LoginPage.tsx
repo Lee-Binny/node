@@ -29,15 +29,18 @@ const LoginPage: React.FC<ILoginProps> = ({ setActive, setSignIn }) => {
         })
         .then(res => {
             if (res.data.ok) {
+                let guildName: string = '';
                 let guildId: number = 0;
                 if (res.data.guild) {
                     guildId = res.data.guild.id;
+                    guildName = res.data.guild.name;
                 }
                 sessionStorage.setItem('uid', res.data.login.id);
                 sessionStorage.setItem('userId', res.data.login.user_id);
                 sessionStorage.setItem('name', res.data.login.name);
                 sessionStorage.setItem('level', res.data.login.level);
                 sessionStorage.setItem('guildId', guildId.toString());
+                sessionStorage.setItem('guildName', guildName);
                 setActive('home');
                 setSignIn(true);
             } else {
