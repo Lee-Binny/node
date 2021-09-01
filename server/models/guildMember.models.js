@@ -28,6 +28,18 @@ const GuildMemberModels = {
             console.error("get my guild model error: " + error);
             throw error;
         }
+    },
+    insertGuildMember: async (guildId, userId, userName) => {
+        try {
+            const conn = await pool.getConnection();
+            const query = GuildMemberQuery.insertGuildMember(guildId, userId, userName);
+            await conn.query(query);
+            conn.release();
+            return ;
+        } catch (error) {
+            console.error("insert guild member model error: " + error);
+            throw error;
+        }
     }
 }
 

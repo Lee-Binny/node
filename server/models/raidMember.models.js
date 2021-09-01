@@ -9,7 +9,7 @@ const RaidMemberModels = {
             conn.release();
             return ;
         } catch (error) {
-            console.error("inser raid member model error: " + error);
+            console.error("insert raid member model error: " + error);
             throw error;
         }
     }

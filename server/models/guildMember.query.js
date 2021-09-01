@@ -16,6 +16,14 @@ const query = {
         guild_member
         WHERE
         user_id = ${userId}`;
+    },
+    insertGuildMember: (guildId, userId, userName) => {
+        return `
+        INSERT INTO
+        guild_member
+        (guild_id, user_id, user_name, role)
+        VALUES
+        (${guildId}, ${userId}, '${userName}', 1)`;
     }
 }
 

@@ -10,3 +10,14 @@ exports.getGuild = async (req, res) => {
         res.send({ok: false, error: error.message});
     }
 }
+
+exports.insertGuildMember = async (req, res) => {
+    let { guildId, userId, userName } = req.body;
+    try {
+        await guildService.insertGuildMember(guildId, userId, userName);
+        res.send({ok: true});
+    } catch (error) {
+        console.error("insert guild member controllers error: " + error);
+        res.send({ok: false, error: error.message});
+    }
+}

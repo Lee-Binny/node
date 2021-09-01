@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Table, Card, CardGroup, Button } from 'react-bootstrap';
 import { IGuild, IGuildMembers, IMaster } from './GuildPage';
 import moment from 'moment';
 import './Guild.css';
+import GuildModal from './GuildModal';
 
 interface IGuildResultProps {
     guild: IGuild;
@@ -13,12 +14,16 @@ interface IGuildResultProps {
 const setMemberRole = (role: number) => {
     switch (role) {
         case 0: return '마스터';
-        case 1: return '관리자';
-        case 2: return '길드원';
+        case 1: return '길드원';
     }
 }
 
 const GuildResult: React.FC<IGuildResultProps> = ({guild, members, master}) => {
+    const [show, setShow] = useState<boolean>(false);
+    const onClick = () => {
+        setShow(true);
+    }
+
     return (
         <CardGroup>
             <Card>
@@ -31,6 +36,9 @@ const GuildResult: React.FC<IGuildResultProps> = ({guild, members, master}) => {
                         <p>Level: {guild.level}</p>
                         <p>Master: {master.name}</p>
                     </Card.Text>
+                    { sessionStorage.getItem('guildId') && sessionStorage.getItem('guildId') === '0' && (
+                        <Button onClick={onClick} size="sm">길드 가입</Button>
+                    ) } 
                 </Card.Body>
             </Card>
             <Card>
@@ -60,9 +68,9 @@ const GuildResult: React.FC<IGuildResultProps> = ({guild, members, master}) => {
                             }
                         </tbody>
                     </Table>
-                    <Button variant="info" size="sm">길드원 추가</Button>
                 </Card.Body>
             </Card>
+            <GuildModal show={show} setShow={setShow} guildId={guild.id} guildName={guild.name} />
         </CardGroup>
     )
 }

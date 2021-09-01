@@ -13,3 +13,13 @@ exports.getGuild = async (guildName) => {
         throw error;
     }
 }
+
+exports.insertGuildMember = async (guildId, userId, userName) => {
+    try {
+        await GuildMemberModel.insertGuildMember(guildId, userId, userName);
+        return ;
+    } catch (e) {
+        console.error("insert guild member service error: " + error);
+        throw error;
+    }
+}

@@ -54,7 +54,6 @@ const GuildPage: React.FC = () => {
     const onClick = () => {
         axios.get('/guild?guildName=' + guildName)
         .then(res => {
-            console.log(res.data);
             if (res.data.ok) {
                 setGuild({
                     id: res.data.guild.id,
@@ -82,6 +81,7 @@ const GuildPage: React.FC = () => {
             setError(err.error);
         }) 
     }
+
     return (
         <div>
             <InputGroup className="mb-3 search-bar">
