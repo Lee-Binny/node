@@ -14,6 +14,17 @@ exports.getGuild = async (guildName) => {
     }
 }
 
+exports.insertGuild = async (name, uid) => {
+    try {
+        const guild = await GuildModel.insertGuild(name, uid);
+        await GuildMemberModel.insertGuildMember(guild.insertId, uid, name);
+        return { guild };
+    } catch (e) {
+        console.error("insert guild service error: " + error);
+        throw error;
+    }
+}
+
 exports.insertGuildMember = async (guildId, userId, userName) => {
     try {
         await GuildMemberModel.insertGuildMember(guildId, userId, userName);

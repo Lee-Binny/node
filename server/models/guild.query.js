@@ -17,6 +17,14 @@ const query = {
         WHERE
         id = ${guildId}`;
     },
+    insertGuild: (name, uid) => {
+        return `
+        INSERT INTO
+        guild
+        (name, master_id, role)
+        VALUES
+        ('${name}', ${uid}, 0)`;
+    },
 }
 
 module.exports = query;

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { InputGroup, FormControl, Button, Alert } from 'react-bootstrap';
 import GuildResult from './GuildResult';
 import './Guild.css';
+import CreateModal from './CreateModal';
 
 export interface IGuild {
     id: number;
@@ -46,6 +47,7 @@ const GuildPage: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [guild, setGuild] = useState<IGuild | null>(null);
     const [master, setMaster] = useState<IMaster | null>(null);
+    const [show, setShow] = useState<boolean>(false);
     const [members, setMembers] = useState<IGuildMembers[] | null>(null);
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setGuildName(e.target.value);
@@ -98,6 +100,14 @@ const GuildPage: React.FC = () => {
                 >
                     검색
                 </Button>
+                {
+                    sessionStorage.getItem('guildId') && sessionStorage.getItem('guildId') === '0' && (
+                    <Button onClick={() => setShow(true)}>
+                        길드 생성
+                    </Button>
+                    )
+                }
+                
             </InputGroup>
             {
                 guild && members && master && (
@@ -111,6 +121,7 @@ const GuildPage: React.FC = () => {
                     </Alert>
                 )
             }
+            <CreateModal show={show} setShow={setShow} />
         </div>
     )
 }
