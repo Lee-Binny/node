@@ -19,12 +19,7 @@ const GuildContainer: React.FC = () => {
             axios.get('/user/logout')
             .then(res => {
                 if (res.data.ok) {
-                    sessionStorage.removeItem('uid');
-                    sessionStorage.removeItem('userId');
-                    sessionStorage.removeItem('name');
-                    sessionStorage.removeItem('level');
-                    sessionStorage.removeItem('guildId');
-                    sessionStorage.removeItem('guildName');  
+                    sessionStorage.clear();
                     setActive('home');
                     setSignIn(false);
                 } else {
