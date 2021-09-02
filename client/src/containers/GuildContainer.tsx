@@ -6,7 +6,6 @@ import LoginPage from '../components/user/LoginPage';
 import Mypage from '../components/user/MyPage';
 import SignUpPage from '../components/user/SignUpPage';
 import ErrorModal from '../components/common/ErrorModal';
-import BoardPage from '../components/board/BoardPage';
 import axios from 'axios';
 
 const GuildContainer: React.FC = () => {
@@ -24,7 +23,8 @@ const GuildContainer: React.FC = () => {
                     sessionStorage.removeItem('userId');
                     sessionStorage.removeItem('name');
                     sessionStorage.removeItem('level');
-                    sessionStorage.removeItem('guildId');  
+                    sessionStorage.removeItem('guildId');
+                    sessionStorage.removeItem('guildName');  
                     setActive('home');
                     setSignIn(false);
                 } else {
@@ -45,7 +45,6 @@ const GuildContainer: React.FC = () => {
         switch(active) {
             case 'home': return <GuildPage />;
             case 'raid': return <RaidPage />;
-            case 'board': return <BoardPage />;
             case 'login': return <LoginPage setActive={setActive} setSignIn={setSignIn} />
             case 'mypage': return <Mypage setActive={setActive} setSignIn={setSignIn} />
             case 'signup': return <SignUpPage setActive={setActive}/>
@@ -72,7 +71,6 @@ const GuildContainer: React.FC = () => {
                         >
                             <Nav.Link eventKey="home">Home</Nav.Link>
                             <Nav.Link eventKey="raid">Raid</Nav.Link>
-                            <Nav.Link eventKey="board">Board</Nav.Link>
                         </Nav>
                         <Nav
                             onSelect={onSelect} 

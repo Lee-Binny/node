@@ -102,9 +102,9 @@ const GuildPage: React.FC = () => {
                 </Button>
                 {
                     sessionStorage.getItem('guildId') && sessionStorage.getItem('guildId') === '0' && (
-                    <Button onClick={() => setShow(true)}>
+                    <Button variant="info" onClick={() => setShow(true)}>
                         길드 생성
-                    </Button>
+                    </Button> 
                     )
                 }
                 

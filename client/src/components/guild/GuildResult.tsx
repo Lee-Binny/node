@@ -37,7 +37,9 @@ const GuildResult: React.FC<IGuildResultProps> = ({guild, members, master}) => {
                         <p>Master: {master.name}</p>
                     </Card.Text>
                     { sessionStorage.getItem('guildId') && sessionStorage.getItem('guildId') === '0' && (
-                        <Button onClick={onClick} size="sm">길드 가입</Button>
+                        <div className="insert-button">
+                            <Button onClick={onClick} size="sm">길드 가입</Button>
+                        </div>
                     ) } 
                 </Card.Body>
             </Card>

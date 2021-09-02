@@ -75,7 +75,7 @@ const RaidModal: React.FC<IRaidModalProps> = ({ name, show, onHide, mode, date, 
             setTitle('');
             setBoss(1);
         }
-    }, [mode]);
+    }, []);
 
     return (
         <Modal

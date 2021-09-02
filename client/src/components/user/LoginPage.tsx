@@ -32,7 +32,7 @@ const LoginPage: React.FC<ILoginProps> = ({ setActive, setSignIn }) => {
                 let guildName: string = '';
                 let guildId: number = 0;
                 if (res.data.guild) {
-                    guildId = res.data.guild.id;
+                    guildId = res.data.guild.guild_id;
                     guildName = res.data.guild.name;
                 }
                 sessionStorage.setItem('uid', res.data.login.id);

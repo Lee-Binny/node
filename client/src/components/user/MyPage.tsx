@@ -43,7 +43,8 @@ const MyPage: React.FC<IMyPageProps> = ({ setActive, setSignIn }) => {
                     sessionStorage.removeItem('userId');
                     sessionStorage.removeItem('name');
                     sessionStorage.removeItem('level');
-                    sessionStorage.removeItem('guildId');                          
+                    sessionStorage.removeItem('guildId');
+                    sessionStorage.removeItem('guildName');                   
                     setActive('home');
                     setSignIn(false);
                 } else {

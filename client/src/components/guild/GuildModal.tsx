@@ -17,9 +17,11 @@ const GuildModal: React.FC<IGuildModalProps> = ({ show, guildName, guildId, setS
             userName: sessionStorage.getItem('name')
         })
         .then(res => {
-            sessionStorage.setItem('guildId', guildId.toString());
-            sessionStorage.setItem('guildName', guildName);
-            setShow(false);
+            if (res.data.ok) {
+                sessionStorage.setItem('guildId', guildId.toString());
+                sessionStorage.setItem('guildName', guildName);
+                setShow(false);
+            }
         })
         .catch(err => {
             console.log(err);

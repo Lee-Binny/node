@@ -12,11 +12,13 @@ interface IBoard {
 }
 
 const BoardList: React.FC = () => {
+    const [boards, setBoards] = useState<IBoard[]>([]);
     const getBoards = (): any => {
         let boardList: IBoard[] = [];
         axios.get('/board')
         .then(res => {
             if (res.data.ok) {
+                console.log(res.data);
                 res.data.result.map((value: any, index: number) => {
                     let newBoard: IBoard = ({
                         id: value.id,
@@ -35,8 +37,6 @@ const BoardList: React.FC = () => {
             return boardList;
         })
     }
-
-    const [boards, setBoards] = useState<IBoard[]>(getBoards());
     
     useEffect(() => {
         const boardsList = getBoards();
