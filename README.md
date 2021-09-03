@@ -24,7 +24,7 @@ npm start
 ### 레이드 일정
 <img width="1680" alt="guilds" src="https://user-images.githubusercontent.com/25112694/131942096-a1e6058e-8d7b-4518-a2a9-7ec712b135d2.png">
 
-### 테스트
+<!-- ### 테스트
 #### 길드 검색
 아이디 test, 비밀번호 test 로그인
 
@@ -42,6 +42,6 @@ npm start
 
 날짜 선택 시 레이드 일정 추가
 
-이벤트 클릭 시 레이트 일정 수정 (자신이 생성한 일정만 수정 가능)
+이벤트 클릭 시 레이트 일정 수정 (자신이 생성한 일정만 수정 가능) -->
 
 
